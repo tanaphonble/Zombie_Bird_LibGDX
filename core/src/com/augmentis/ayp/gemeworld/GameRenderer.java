@@ -1,9 +1,13 @@
 package com.augmentis.ayp.gemeworld;
 
+import com.augmentis.ayp.gameobjects.Bird;
+import com.augmentis.ayp.zbhelpers.AssetLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * Created by Tanaphon on 8/30/2016.
@@ -14,60 +18,76 @@ public class GameRenderer {
     private OrthographicCamera cam;
     private ShapeRenderer shapeRenderer;
 
-    public GameRenderer(GameWorld world) {
+    private SpriteBatch batcher;
+
+    private int midPointY;
+    private int gameHeight;
+
+
+    public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
         myWorld = world;
+
+        // The world "this" refers to this instance.
+        // We are setting the instance variable' values to be that of the
+        // parameters passed in from GameScreen
+        this.gameHeight = gameHeight;
+        this.midPointY = midPointY;
+
         cam = new OrthographicCamera();
-        cam.setToOrtho(true, 136, 204);
+        cam.setToOrtho(true, 136, gameHeight);
+
+        batcher = new SpriteBatch();
+        batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
     }
 
-    public void render() {
-//        Gdx.app.log(TAG, "renderer --> render");
-        /*
-         * 1. We draw a black background. This prevent flickering
-         */
+    public void render(float runTime) {
 
+        // We will move these outside of the loop for performance letter.
+        Bird bird = myWorld.getBird();
+
+        // Fill the entire screen width black, to prevent potential flickering.
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        /*
-         * 2. We draw the Filled rectangle
-         */
+        // Begin ShapeRender
+        shapeRenderer.begin(ShapeType.Filled);
 
-        // Tells shapeRenderer to begin drawing filled shape
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        // Draw background color
+        shapeRenderer.setColor(55 / 255.0f, 80 / 255.0f, 100 / 255.0f, 1);
+        shapeRenderer.rect(0, 0, 136, midPointY + 66);
 
-        // Choose RGB Color of 87, 109, 120 at full opacity
-        shapeRenderer.setColor(87 / 255.0f, 109 / 255.0f, 120 / 255.0f, 1);
+        // Draw grass
+        shapeRenderer.setColor(111 / 255.0f, 186 / 255.0f, 45 / 255.0f, 1);
+        shapeRenderer.rect(0, midPointY + 66, 136, 11);
 
-        // Draws the rectangle from myWorld (Using ShapeType.Filled)
-        shapeRenderer.rect(myWorld.getRect().x,
-                myWorld.getRect().y,
-                myWorld.getRect().width,
-                myWorld.getRect().height);
+        // Draw dirt
+        shapeRenderer.setColor(147 / 2550.f, 80 / 255.0f, 27 / 255.0f, 1);
+        shapeRenderer.rect(0, midPointY + 77, 136, 52);
 
-        // Tell the shapeRenderer to finish rendering
-        // We must do this every time
+        // End ShapeRender
         shapeRenderer.end();
 
-        /*
-         * 3. We draw the rectangle's outline
-         */
+        // Begin SpriteBatch
+        batcher.begin();
+        // Disable transparency
+        // This is good for performance when drawing image that do not require transparency
+        batcher.disableBlending();
+        batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
 
-        // Tells shapeRenderer to draw an outline of the following shapes
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        // The bird needs transparency, so we enable that again
+        batcher.isBlendingEnabled();
 
-        // Choose RGB Color of 255, 109, 120 at full opacity
-        shapeRenderer.setColor(1, 190 / 255.0f, 120 / 255.0f, 1);
-
-        // Draws the rectangle from myWorld (Using ShapeType.Line)
-        shapeRenderer.rect(myWorld.getRect().x,
-                myWorld.getRect().y,
-                myWorld.getRect().width,
-                myWorld.getRect().height
+        // Draw bird at its coordinates. Retrieve the Animation object from AssertLoader
+        // Pass in the RunTime variable to get the current frame
+        batcher.draw(AssetLoader.birdAnimation.getKeyFrame(runTime),
+                bird.getX(),
+                bird.getY(),
+                bird.getWidth(),
+                bird.getHeight()
         );
-
-        shapeRenderer.end();
+        // End SpriteBatch
+        batcher.end();
     }
 }

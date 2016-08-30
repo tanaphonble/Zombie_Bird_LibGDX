@@ -2,6 +2,7 @@ package com.augmentis.ayp.screen;
 
 import com.augmentis.ayp.gemeworld.GameRenderer;
 import com.augmentis.ayp.gemeworld.GameWorld;
+import com.augmentis.ayp.zbhelpers.InputHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,10 +14,19 @@ public class GameScreen implements Screen {
     private static final String TAG = "GameScreen";
     private GameWorld world;
     private GameRenderer renderer;
+    private float runTime;
+
+    // This is the constructor, not the class declaration
     public GameScreen() {
         Gdx.app.log(TAG, "Attached");
-        world = new GameWorld();
-        renderer = new GameRenderer(world);
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float gameWidth = 136;
+        float gameHeight = screenHeight / (screenWidth / gameWidth);
+        int midPointY = (int) (gameHeight / 2);
+        world = new GameWorld(midPointY);
+        renderer = new GameRenderer(world,(int) gameHeight, midPointY);
+        Gdx.input.setInputProcessor(new InputHandler(world.getBird()));
     }
 
     @Override
@@ -26,10 +36,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        runTime+=delta;
         world.update(delta);
-        renderer.render();
+        renderer.render(runTime);
 //        Gdx.app.log(TAG, "Game screen fps: " + 1 / delta);
     }
 
