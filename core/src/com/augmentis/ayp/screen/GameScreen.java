@@ -1,5 +1,7 @@
 package com.augmentis.ayp.screen;
 
+import com.augmentis.ayp.gemeworld.GameRenderer;
+import com.augmentis.ayp.gemeworld.GameWorld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,8 +11,12 @@ import com.badlogic.gdx.graphics.GL20;
  */
 public class GameScreen implements Screen {
     private static final String TAG = "GameScreen";
-    public GameScreen(){
+    private GameWorld world;
+    private GameRenderer renderer;
+    public GameScreen() {
         Gdx.app.log(TAG, "Attached");
+        world = new GameWorld();
+        renderer = new GameRenderer(world);
     }
 
     @Override
@@ -20,8 +26,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(10/255.0f, 15/255.0f, 230/255.0f, 1f);
+        Gdx.gl.glClearColor(10 / 255.0f, 15 / 255.0f, 230 / 255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        world.update(delta);
+        renderer.render();
+//        Gdx.app.log(TAG, "Game screen fps: " + 1 / delta);
     }
 
     @Override
