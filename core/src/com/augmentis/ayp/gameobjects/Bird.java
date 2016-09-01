@@ -74,4 +74,8 @@ public class Bird {
     public int getWidth() {
         return width;
     }
+
+    public float getRotation(){
+        return rotation;
+    }
 }

@@ -10,9 +10,9 @@ public class ZBGame extends Game {
     private static final String TAG = "ZBGame";
     @Override
     public void create() {
+        AssetLoader.load();
         Gdx.app.log(TAG, "created");
         setScreen(new GameScreen());
-        AssetLoader.load();
     }
 
     @Override

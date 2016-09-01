@@ -24,8 +24,8 @@ public class ScrollHandler {
         backGrass = new Grass(frontGrass.getTailX(), yPos, 143, 11, SCROLL_SPEED);
 
         pipe1 = new Pipe(210, 0, 22, 60, SCROLL_SPEED);
-        pipe1 = new Pipe(pipe1.getTailX(), 0, 22, 60, SCROLL_SPEED);
-        pipe1 = new Pipe(pipe2.getTailX(), 0, 22, 60, SCROLL_SPEED);
+        pipe2 = new Pipe(pipe1.getTailX(), 0, 22, 60, SCROLL_SPEED);
+        pipe3 = new Pipe(pipe2.getTailX(), 0, 22, 60, SCROLL_SPEED);
     }
 
     public void update(float delta) {
