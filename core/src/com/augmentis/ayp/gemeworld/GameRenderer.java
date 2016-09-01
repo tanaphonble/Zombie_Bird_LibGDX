@@ -5,7 +5,9 @@ import com.augmentis.ayp.zbhelpers.AssetLoader;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
@@ -23,6 +25,30 @@ public class GameRenderer {
     private int midPointY;
     private int gameHeight;
 
+    // Game Objects
+    private Bird bird;
+
+    // Game Assets
+    private TextureRegion bg, grass;
+    private Animation birdAnimation;
+    private TextureRegion birdMid, birdDown, birdUp;
+    private TextureRegion skullUp, skullDown, bar;
+
+    private void initGameObject(){
+        bird = myWorld.getBird();
+    }
+
+    private void initAssets(){
+        bg = AssetLoader.bg;
+        grass = AssetLoader.grass;
+        birdAnimation = AssetLoader.birdAnimation;
+        birdMid = AssetLoader.bird;
+        birdDown = AssetLoader.birdDown;
+        birdUp = AssetLoader.birdUp;
+        skullUp = AssetLoader.skullUp;
+        skullDown = AssetLoader.skullDown;
+        bar = AssetLoader.bar;
+    }
 
     public GameRenderer(GameWorld world, int gameHeight, int midPointY) {
         myWorld = world;
@@ -40,12 +66,16 @@ public class GameRenderer {
         batcher.setProjectionMatrix(cam.combined);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(cam.combined);
+
+        initGameObject();
+        initAssets();
     }
 
     public void render(float runTime) {
 
         // We will move these outside of the loop for performance letter.
-        Bird bird = myWorld.getBird();
+        // Now we have bird from method initGameObject
+        // Bird bird = myWorld.getBird();
 
         // Fill the entire screen width black, to prevent potential flickering.
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -77,7 +107,7 @@ public class GameRenderer {
         batcher.draw(AssetLoader.bg, 0, midPointY + 23, 136, 43);
 
         // The bird needs transparency, so we enable that again
-        batcher.isBlendingEnabled();
+        batcher.enableBlending();
 
         // Draw bird at its coordinates. Retrieve the Animation object from AssertLoader
         // Pass in the RunTime variable to get the current frame
