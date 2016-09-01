@@ -34,6 +34,10 @@ public class Scrollable {
         isScrolledLeft = false;
     }
 
+    public boolean isScrolledLeft(){
+        return isScrolledLeft;
+    }
+
     public float getTailX() {
         return position.x + width;
     }
