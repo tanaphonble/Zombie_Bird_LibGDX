@@ -1,5 +1,6 @@
 package com.augmentis.ayp.gameobjects;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -34,7 +35,7 @@ public class Scrollable {
         isScrolledLeft = false;
     }
 
-    public boolean isScrolledLeft(){
+    public boolean isScrolledLeft() {
         return isScrolledLeft;
     }
 
@@ -46,15 +47,15 @@ public class Scrollable {
         return position.x;
     }
 
-    public float getY(){
+    public float getY() {
         return position.y;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
 
