@@ -6,6 +6,7 @@ import com.augmentis.ayp.gameobjects.Pipe;
 import com.augmentis.ayp.gameobjects.ScrollHandler;
 import com.augmentis.ayp.zbhelpers.AssetLoader;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -194,5 +195,12 @@ public class GameRenderer {
         }
 
         batcher.end();
+
+        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.circle(bird.getBoundingCircle().x, bird.getBoundingCircle().y, bird.getBoundingCircle().radius);
+        shapeRenderer.end();
     }
+
+
 }

@@ -37,6 +37,12 @@ public class ScrollHandler {
         pipe2.update(delta);
         pipe3.update(delta);
 
+        if (frontGrass.isScrolledLeft()) {
+            frontGrass.reset(backGrass.getTailX());
+        } else if (backGrass.isScrolledLeft()) {
+            backGrass.reset(frontGrass.getTailX());
+        }
+
         // Check if any of the pipes are scrolled left,
         // and reset accordingly
         if (pipe1.isScrolledLeft()) {
