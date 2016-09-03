@@ -158,9 +158,9 @@ public class GameRenderer {
         // 1. Draw grass
         drawGrass();
 
+        batcher.enableBlending();
         // 2. Draw Pipes
         drawPipes();
-        batcher.enableBlending();
 
         // 3. Draw skulls (requires transparency)
         drawSkull();

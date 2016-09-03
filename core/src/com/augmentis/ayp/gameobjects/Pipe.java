@@ -1,5 +1,6 @@
 package com.augmentis.ayp.gameobjects;
 
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
@@ -78,4 +79,13 @@ public class Pipe extends Scrollable {
         return skullUp;
     }
 
+    public boolean collides(Bird bird) {
+        if (position.x < bird.getX() + bird.getWidth()) {
+            return (Intersector.overlaps(bird.getBoundingCircle(), barUp)
+            || Intersector.overlaps(bird.getBoundingCircle(), barDown)
+            || Intersector.overlaps(bird.getBoundingCircle(), skullUp)
+            || Intersector.overlaps(bird.getBoundingCircle(), skullDown));
+        }
+        return false;
+    }
 }
