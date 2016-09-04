@@ -18,6 +18,7 @@ public class Pipe extends Scrollable {
     public static final int SKULL_HEIGHT = 11;
     private float groundY;
 
+    private boolean isScored = false;
 
     // When Pipe's constructor is invoked, invoke the super (Scrollable)
     // Constructor
@@ -29,6 +30,7 @@ public class Pipe extends Scrollable {
         skullDown = new Rectangle();
         barUp = new Rectangle();
         barDown = new Rectangle();
+
         this.groundY = groundY;
     }
 
@@ -57,10 +59,9 @@ public class Pipe extends Scrollable {
 
     @Override
     public void reset(float newX) {
-        // Call the reset method in the superclass (Scrollable)
         super.reset(newX);
-        // Change the height to a random number
         height = r.nextInt(90) + 15;
+        isScored = false;
     }
 
     public Rectangle getBarDown() {
@@ -87,5 +88,13 @@ public class Pipe extends Scrollable {
             || Intersector.overlaps(bird.getBoundingCircle(), skullDown));
         }
         return false;
+    }
+
+    public boolean isScored(){
+        return isScored;
+    }
+
+    public void setScored(boolean b){
+        isScored = b;
     }
 }

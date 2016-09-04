@@ -59,9 +59,10 @@ public class AssetLoader {
         flap = Gdx.audio.newSound(Gdx.files.internal("data/flap.wav"));
 
         font = new BitmapFont(Gdx.files.internal("data/text.fnt"));
-        font.getData().setScale(.25f, .25f);
+        font.getData().setScale(.25f, -.25f);
+
         shadow = new BitmapFont(Gdx.files.internal("data/shadow.fnt"));
-        shadow.getData().setScale(.25f, .25f);
+        shadow.getData().setScale(.25f, -.25f);
     }
 
     public static void dispose() {

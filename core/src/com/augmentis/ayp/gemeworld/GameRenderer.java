@@ -190,6 +190,11 @@ public class GameRenderer {
             );
         }
 
+        String score = String.valueOf(myWorld.getScore());
+
+        AssetLoader.shadow.draw(batcher, score, (136 / 2) - (3 * score.length()), 11);
+        AssetLoader.font.draw(batcher, score, (136 / 2) - (3 * score.length()), 12);
+
         batcher.end();
     }
 }
