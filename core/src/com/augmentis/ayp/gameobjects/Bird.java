@@ -11,6 +11,7 @@ public class Bird {
     private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
+    private boolean isAlive = true;
 
     private float rotation;
     private int width;
@@ -46,7 +47,7 @@ public class Bird {
         }
 
         // Rotate clockwise
-        if (isFalling()) {
+        if (isFalling() || !isAlive) {
             rotation += 480 * delta;
             if (rotation > 90) {
                 rotation = 90;
@@ -59,12 +60,22 @@ public class Bird {
     }
 
     public boolean shoudntFlap() {
-        return velocity.y > 70;
+        return velocity.y > 70 || !isAlive;
+    }
+
+    public void die() {
+        isAlive = false;
+        velocity.y = 0;
+    }
+
+    public void decelerete() {
+        // We want the bird to stop accelerating downwards once it is dead.
+        acceleration.y = 0;
     }
 
     public void onClick() {
-        velocity.y = -140;
         AssetLoader.flap.play();
+        velocity.y = -140;
     }
 
     public float getX() {
@@ -89,5 +100,9 @@ public class Bird {
 
     public Circle getBoundingCircle() {
         return boundingCircle;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }
