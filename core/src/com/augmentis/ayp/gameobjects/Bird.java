@@ -1,5 +1,6 @@
 package com.augmentis.ayp.gameobjects;
 
+import com.augmentis.ayp.zbhelpers.AssetLoader;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -63,6 +64,7 @@ public class Bird {
 
     public void onClick() {
         velocity.y = -140;
+        AssetLoader.flap.play();
     }
 
     public float getX() {
